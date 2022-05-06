@@ -1,6 +1,5 @@
 ﻿using AuthService.Data;
-using AuthService.Models;
-using AuthService.Provider;
+using AuthService.Data.Entities;
 using System.Linq;
 
 namespace AuthService.Repository

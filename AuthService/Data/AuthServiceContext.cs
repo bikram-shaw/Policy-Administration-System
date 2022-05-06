@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AuthService.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Data
 {

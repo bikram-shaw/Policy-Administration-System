@@ -1,4 +1,4 @@
-﻿using AuthService.Data;
+﻿using AuthService.Data.Entities;
 using AuthService.Models;
 
 namespace AuthService.Repository

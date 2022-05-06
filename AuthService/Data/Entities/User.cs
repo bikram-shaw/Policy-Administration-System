@@ -1,4 +1,4 @@
-﻿namespace AuthService.Data
+﻿namespace AuthService.Data.Entities
 {
     public class User
     {
