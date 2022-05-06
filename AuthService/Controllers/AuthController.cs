@@ -1,6 +1,7 @@
 ﻿using AuthService.Models;
 using AuthService.Repository;
 using AuthService.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -46,8 +47,16 @@ namespace AuthService.Controllers
 
             return response;
         }
-
-
+        /// <summary>
+        /// Authenticate Request
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public IActionResult Authenticate()
+        {
+            return Ok(true);
+        }
 
 
 
