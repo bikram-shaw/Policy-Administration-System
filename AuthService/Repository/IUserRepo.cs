@@ -1,9 +1,10 @@
-﻿using AuthService.Models;
+﻿using AuthService.Data;
+using AuthService.Models;
 
 namespace AuthService.Repository
 {
     public interface IUserRepo
     {
-        public LoginCredentials GetUserCred(LoginCredentials cred);
+        public User GetUserCred(User user);
     }
 }

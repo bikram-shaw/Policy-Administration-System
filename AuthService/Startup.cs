@@ -1,10 +1,13 @@
+using AuthService.Data;
 using AuthService.Provider;
 using AuthService.Repository;
+using AuthService.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,11 +36,18 @@ namespace AuthService
         {
 
             services.AddControllers();
+
+            services.AddDbContext<AuthServiceContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultDb"));
+            });
+
             var key = Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]);
 
             services.AddTransient<IUserProvider, UserProvider>();
 
             services.AddTransient<IUserRepo, UserRepo>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                  .AddJwtBearer(options =>

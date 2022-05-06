@@ -1,21 +1,22 @@
 ﻿using AuthService.Models;
 using AuthService.Repository;
+using AuthService.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace AuthService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IConfiguration _config;
-        private readonly IUserRepo _repo;
+        
+        private readonly IUserService userService;
 
-        public AuthController(IConfiguration config, IUserRepo repo)
+        public AuthController(IUserService userService)
         {
-            _config = config;
-            _repo = repo;
+           
+            this.userService = userService;
         }
 
 
@@ -28,18 +29,18 @@ namespace AuthService.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] LoginCredentials login)
         {
-            AuthRepo auth_repo = new AuthRepo(_config, _repo);
+          
             //_log4net.Info("Login initiated!");
             IActionResult response = Unauthorized();
-            //login.FullName = "user1";
-            var user = auth_repo.AuthenticateUser(login);
+
+            var user = userService.AuthenticateUser(login);
             if (user == null)
             {
                 return NotFound(new CustomResponse(401, "Invalid Credential"));
             }
             else
             {
-                var tokenString = auth_repo.GenerateJSONWebToken(user);
+                var tokenString = userService.GenerateJSONWebToken(user);
                 response = Ok(new { token = tokenString });
             }
 

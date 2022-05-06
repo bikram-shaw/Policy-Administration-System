@@ -1,7 +1,11 @@
+using ConsumerService.Data;
+using ConsumerService.Repository;
+using ConsumerService.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +32,18 @@ namespace ConsumerService
         {
 
             services.AddControllers();
+
+            services.AddDbContext<ConsumerBusinessContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultDb"));
+            });
+            services.AddScoped<IBusinessPropertyRepository, BusinessPropertyRepository>();
+            services.AddScoped<IConsumerBusinessRepository, ConsumerBusinessRepository>();
+            services.AddScoped<IBusinessPropertyService, BusinessPropertyService>();
+            services.AddScoped<IConsumerBusinessService, ConsumerBusinessService>();
+
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ConsumerApi", Version = "v1" });

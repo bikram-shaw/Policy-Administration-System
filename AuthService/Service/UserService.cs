@@ -1,41 +1,34 @@
-﻿using AuthService.Models;
+﻿using AuthService.Data;
+using AuthService.Models;
+using AuthService.Models;
+using AuthService.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace AuthService.Repository
+namespace AuthService.Service
 {
-    public class AuthRepo
+    public class UserService : IUserService
     {
         private readonly IConfiguration _config;
-        // static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(AuthRepo));
-        private readonly IUserRepo _repo;
+        private readonly IUserRepo repo;
 
-        public AuthRepo(IConfiguration config, IUserRepo repo)
+        public UserService(IConfiguration config, IUserRepo repo)
         {
             _config = config;
-            _repo = repo;
+            this.repo = repo;
         }
-
-
-        /// <summary>
-        /// Finding User with matching credentials
-        /// </summary>
-        /// <param name="login"></param>
-        /// <returns></returns>
 
         public LoginCredentials AuthenticateUser(LoginCredentials cred)
         {
-            // _log4net.Info("Validating the User!");
-
-            //Validate the User Credentials 
-            LoginCredentials user = _repo.GetUserCred(cred);
-
-            return user;
+            User user = repo.GetUserCred(new User() { Username=cred.Username,Password=cred.Password});
+            if (user != null)
+                return cred;
+            else
+                return null;
         }
-
         public string GenerateJSONWebToken(LoginCredentials userInfo)
         {
             //_log4net.Info("Token Is Generated!");
@@ -57,5 +50,9 @@ namespace AuthService.Repository
 
 
         }
+
     }
+
+    
 }
+

@@ -1,20 +1,22 @@
-﻿using AuthService.Models;
+﻿using AuthService.Data;
+using AuthService.Models;
 using AuthService.Provider;
+using System.Linq;
 
 namespace AuthService.Repository
 {
     public class UserRepo : IUserRepo
     {
-        private IUserProvider _userProvider;
+        private readonly AuthServiceContext context;
 
-        public UserRepo(IUserProvider userProvider)
+        public UserRepo(AuthServiceContext context)
         {
-            _userProvider = userProvider;
+            this.context = context;
         }
 
-        public LoginCredentials GetUserCred(LoginCredentials cred)
+        public User GetUserCred(User user)
         {
-            return _userProvider.GetUser(cred);
+            return context.Users.Where(u=>u.Username==user.Username && u.Password==user.Password).FirstOrDefault();
         }
     }
 }
