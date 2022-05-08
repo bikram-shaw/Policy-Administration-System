@@ -1,5 +1,4 @@
 using AuthService.Data;
-using AuthService.Provider;
 using AuthService.Repository;
 using AuthService.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,7 +43,7 @@ namespace AuthService
 
             var key = Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]);
 
-            services.AddTransient<IUserProvider, UserProvider>();
+          
 
             services.AddTransient<IUserRepo, UserRepo>();
             services.AddTransient<IUserService, UserService>();

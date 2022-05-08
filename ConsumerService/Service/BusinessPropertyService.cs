@@ -2,6 +2,7 @@
 using ConsumerService.Data.Entities;
 using ConsumerService.Models;
 using ConsumerService.Repository;
+using System;
 using System.Collections.Generic;
 
 namespace ConsumerService.Service
@@ -26,7 +27,7 @@ namespace ConsumerService.Service
                 BuildingType=propertyDetailsModel.BuildingType,
                 BuildingStoreys=propertyDetailsModel.BuildingStoreys,
                 BuildingAge=propertyDetailsModel.BuildingAge,
-                PropertyValue=propertyDetailsModel.PropertyValue,
+                PropertyValue= CalculateBusinessPropertyValue(propertyDetailsModel.CostoftheAsset, propertyDetailsModel.SalvageValue, propertyDetailsModel.UseFulLifeOfTheAsset),
                 CostoftheAsset=propertyDetailsModel.CostoftheAsset,
                 UseFulLifeOfTheAsset=propertyDetailsModel.UseFulLifeOfTheAsset,
                 SalvageValue=propertyDetailsModel.SalvageValue,
@@ -62,30 +63,25 @@ namespace ConsumerService.Service
             }
             return repo.UpdateBusinessProperty(propertyDetails);
 
-            //List<PropertyDetailsModel> propertyDetailsModels = new List<PropertyDetailsModel>();
-            //List<PropertyDetails>  propertyDetails= repo.GetBusinessProperty(propertyId);
-            //if (propertyDetails == null)
-            //    return false;
-            //else
-            //{
-            //    foreach (PropertyDetails property in propertyDetails)
-            //    {
-            //        propertyDetailsModels.Add(new PropertyDetailsModel()
-            //        {
-            //            PropertyType = property.PropertyType,
-            //            BuildingSqft = property.BuildingSqft,
-            //            BuildingType = property.BuildingType,
-            //            BuildingStoreys = property.BuildingStoreys,
-            //            BuildingAge = property.BuildingAge,
-            //            PropertyValue = property.PropertyValue,
-            //            CostoftheAsset = property.CostoftheAsset,
-            //            UseFulLifeOfTheAsset = property.UseFulLifeOfTheAsset,
-            //            SalvageValue = property.SalvageValue,
-            //            BusinessId = property.BusinessId,
-            //        });
-            //    }
-            //}
-            //return 
+        }
+
+        private long CalculateBusinessPropertyValue(long costOfTheAsset, long salvageValue,long useFullLifeOffTheAsset)
+        {
+            double x_ratio = (costOfTheAsset - salvageValue) / useFullLifeOffTheAsset;
+
+            double Range_min = 0.00;
+            double Range_max = 10.00;
+            double x_max = (double)(costOfTheAsset / useFullLifeOffTheAsset);
+
+            double x_min = (double)(salvageValue / useFullLifeOffTheAsset);
+
+            double range_diff = (Range_max - Range_min);
+
+            double sat = ((x_ratio - x_min) / (x_max - x_min));
+
+            double propertyvalue = range_diff * sat;
+
+            return (long)Math.Abs(Math.Round(propertyvalue));
         }
     }
 }

@@ -2,6 +2,7 @@
 using ConsumerService.Data.Entities;
 using ConsumerService.Models;
 using ConsumerService.Repository;
+using System;
 
 namespace ConsumerService.Service
 {
@@ -34,7 +35,7 @@ namespace ConsumerService.Service
                     BusinessTurnOver = consumerDetailsModel.BusinessDetails.BusinessTurnOver,
                     CapitalInvested = consumerDetailsModel.BusinessDetails.CapitalInvested,
                     TotalEmployee = consumerDetailsModel.BusinessDetails.TotalEmployee,
-                    BusinessValue = consumerDetailsModel.BusinessDetails.BusinessValue,
+                    BusinessValue = CalculateBusinessValue(consumerDetailsModel.BusinessDetails.BusinessTurnOver, consumerDetailsModel.BusinessDetails.CapitalInvested),
                     BusinessAge = consumerDetailsModel.BusinessDetails.BusinessAge
                 }
             };
@@ -72,6 +73,19 @@ namespace ConsumerService.Service
                 consumerDetails.BusinessDetails.BusinessAge = consumerDetailsModel.BusinessDetails.BusinessAge;
             };
             return repo.UpdateConsumer(consumerDetails);
+        }
+
+        private long CalculateBusinessValue(long businessTurnOver,long capitalInvested)
+        {
+            double x_max =businessTurnOver;
+            double x_min =capitalInvested;
+            double x_ratio = x_max / x_min;
+            double Range_min = 0.00;
+            double Range_max = 10.00;
+            double range_diff = Range_max - Range_min;
+            double sat = ((x_ratio - x_min) / (x_max - x_min));
+            double businessvalue = (range_diff * sat);
+            return (long)Math.Round(businessvalue);
         }
     }
 }

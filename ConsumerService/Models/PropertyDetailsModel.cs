@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ConsumerService.Models
 {
@@ -16,6 +17,7 @@ namespace ConsumerService.Models
 		[Required]
 		public long BuildingAge { get; set; }
 		[Required]
+		[JsonIgnore]
 		public long PropertyValue { get; set; }
 		[Required]
 		public long CostoftheAsset { get; set; }

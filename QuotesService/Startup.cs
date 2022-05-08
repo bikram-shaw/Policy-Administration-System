@@ -2,11 +2,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using QuotesService.Data;
+using QuotesService.Repository;
+using QuotesService.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +32,14 @@ namespace QuotesService
         {
 
             services.AddControllers();
+
+            services.AddDbContext<QuotesServiceContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultDb"));
+            });
+            services.AddScoped<IQuotesRepository, QuotesRepository>();
+            services.AddScoped<IQuotesService, QuotesServices>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "QuotesService", Version = "v1" });

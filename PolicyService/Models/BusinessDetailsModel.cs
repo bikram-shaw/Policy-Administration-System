@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace ConsumerService.Models
+namespace PolicyService.Models
 {
     public class BusinessDetailsModel
     {
@@ -23,6 +23,7 @@ namespace ConsumerService.Models
         [Required]
         public long BusinessAge { get; set; }
 
-       
+        public List<PropertyDetailsModel> PropertyDetails { get; set; }
+
     }
 }
