@@ -18,39 +18,30 @@ namespace QuotesService.Data
                 new QuotesMaster()
                 {
                     Id = 1,
-                    BusinessValue =0,
-                    PropertyType = "",
-                    PropertyValue =0,
-                    Quotes=""
+                    BusinessValue =10,
+                    PropertyType = "Inventory",
+                    PropertyValue =5,
+                    Quotes="30000"
                     
                 },
                  new QuotesMaster()
                  {
                      Id = 2,
-                     BusinessValue = 0,
-                     PropertyType = "",
-                     PropertyValue = 0,
-                     Quotes = ""
+                     BusinessValue = 7,
+                     PropertyType = "Equipment",
+                     PropertyValue = 10,
+                     Quotes = "45000"
 
                  },
                   new QuotesMaster()
                   {
                       Id = 3,
-                      BusinessValue = 0,
-                      PropertyType = "",
-                      PropertyValue = 0,
-                      Quotes = ""
+                      BusinessValue = 5,
+                      PropertyType = "Equipment",
+                      PropertyValue = 8,
+                      Quotes = "80000"
 
-                  },
-                   new QuotesMaster()
-                   {
-                       Id = 4,
-                       BusinessValue = 0,
-                       PropertyType = "",
-                       PropertyValue = 0,
-                       Quotes = ""
-
-                   }
+                  }
 
                 );
 

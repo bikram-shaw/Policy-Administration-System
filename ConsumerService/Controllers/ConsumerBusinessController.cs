@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ConsumerService.Models;
 using ConsumerService.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ConsumerService.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+   
     public class ConsumerBusinessController : ControllerBase
     {
         private readonly IConsumerBusinessService service;

@@ -5,7 +5,7 @@
 
 		
 	    public long Id { get; set; }
-		public long Pid { get; set; }
+		public string Pid { get; set; }
 		public long ConsumerId { get; set; }
 		public string PropertyType { get; set; }
 		public string ConsumerType { get; set; }

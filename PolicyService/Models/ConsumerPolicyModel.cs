@@ -7,7 +7,7 @@ namespace PolicyService.Models
 		
 		public long Id { get; set; }
 		[Required]
-		public long Pid { get; set; }
+		public string Pid { get; set; }
 		
 		[Required]
 		public string PropertyType { get; set; }

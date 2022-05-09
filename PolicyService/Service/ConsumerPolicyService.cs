@@ -75,7 +75,7 @@ namespace PolicyService.Service
 
          private ConsumerDetailsModel GetConsumerDetails(long consumerId)
         {
-            string BaseUrl = "https://localhost:44391/";
+            string BaseUrl = "https://localhost:44318/";
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(BaseUrl);
@@ -85,7 +85,7 @@ namespace PolicyService.Service
               
                 try
                 {
-                    response = client.GetAsync("api/PensionerDetail/" + consumerId).Result;
+                    response = client.GetAsync("api/ConsumerBusiness/ViewConsumerBusiness/" + consumerId).Result;
                 }
                 catch (Exception e)
                 {

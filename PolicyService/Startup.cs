@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PolicyService.Data;
+using PolicyService.Repository;
+using PolicyService.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +37,11 @@ namespace PolicyService
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultDb"));
             });
+
+            services.AddScoped<IConsumerPolicyService, ConsumerPolicyService>();
+            services.AddScoped<IConsumerPolicyRepository, ConsumerPolicyRepository>();
+            services.AddScoped<IPolicyMasterRepository, PolicyMasterRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PolicyService", Version = "v1" });
