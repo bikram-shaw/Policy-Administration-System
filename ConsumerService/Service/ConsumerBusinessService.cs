@@ -3,6 +3,7 @@ using ConsumerService.Data.Entities;
 using ConsumerService.Models;
 using ConsumerService.Repository;
 using System;
+using System.Collections.Generic;
 
 namespace ConsumerService.Service
 {
@@ -45,8 +46,46 @@ namespace ConsumerService.Service
         public ConsumerDetailsModel GetConsumerDetails(long consumerId)
         {
           ConsumerDetails consumerDetails=repo.GetConsumerDetails(consumerId);
-          
-           return mapper.Map<ConsumerDetailsModel>(consumerDetails);
+            List<PropertyDetailsModel> pDetails = new List<PropertyDetailsModel>();
+          foreach(var prop  in consumerDetails.BusinessDetails.Properties)
+            {
+                pDetails.Add(new PropertyDetailsModel()
+                {
+                    Id=prop.Id,
+                    PropertyType=prop.PropertyType,
+                    BuildingSqft=prop.BuildingSqft,
+                    BuildingType=prop.BuildingType,
+                    BuildingStoreys=prop.BuildingStoreys,
+                    BuildingAge=prop.BuildingAge,
+                    PropertyValue=prop.PropertyValue,
+                    CostoftheAsset=prop.CostoftheAsset,
+                    UseFulLifeOfTheAsset=prop.UseFulLifeOfTheAsset,
+                    SalvageValue=prop.SalvageValue,
+
+
+                });
+            }
+            return new ConsumerDetailsModel() {
+                Id=consumerDetails.Id,
+                Name = consumerDetails.Name,
+                Dob = consumerDetails.Dob,
+                PanDetails = consumerDetails.PanDetails,
+                Phone = consumerDetails.Phone,
+                AgentId = consumerDetails.AgentId,
+                AgentName = consumerDetails.AgentName,
+                BusinessDetails = new BusinessDetailsModel()
+                {
+                    Id=consumerDetails.BusinessDetails.Id,
+                    BusinessCategory = consumerDetails.BusinessDetails.BusinessCategory,
+                    BusinessType = consumerDetails.BusinessDetails.BusinessType,
+                    BusinessTurnOver = consumerDetails.BusinessDetails.BusinessTurnOver,
+                    CapitalInvested = consumerDetails.BusinessDetails.CapitalInvested,
+                    TotalEmployee = consumerDetails.BusinessDetails.TotalEmployee,
+                    BusinessValue = consumerDetails.BusinessDetails.BusinessValue,
+                    BusinessAge = consumerDetails.BusinessDetails.BusinessAge,
+                    PropertyDetails = pDetails
+                }
+           };
         }
 
         public bool UpdateConsumer(long consumerId, ConsumerDetailsModel consumerDetailsModel)

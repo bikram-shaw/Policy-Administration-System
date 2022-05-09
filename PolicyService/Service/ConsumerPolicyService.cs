@@ -85,7 +85,7 @@ namespace PolicyService.Service
               
                 try
                 {
-                    response = client.GetAsync("api/ConsumerBusiness/ViewConsumerBusiness/" + consumerId).Result;
+                    response = client.GetAsync("api/ConsumerBusiness/ViewConsumerBusiness/"+consumerId).Result;
                 }
                 catch (Exception e)
                 {
@@ -101,8 +101,8 @@ namespace PolicyService.Service
                    
 
                     var ObjResponse = response.Content.ReadAsStringAsync().Result;
-                    ConsumerDetailsModel consumerDetails = JsonConvert.DeserializeObject<ConsumerDetailsModel>(ObjResponse);
-                    return consumerDetails;
+                    CustomResponse res = JsonConvert.DeserializeObject<CustomResponse>(ObjResponse);
+                    return JsonConvert.DeserializeObject<ConsumerDetailsModel>(ObjResponse);
                 }
                 return null;
 

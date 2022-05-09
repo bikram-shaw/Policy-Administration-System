@@ -22,7 +22,7 @@ namespace ConsumerService.Repository
 
         public ConsumerDetails GetConsumerDetails(long consumerId)
         {
-            return context.ConsumerDetails.Include(c => c.BusinessDetails).FirstOrDefault(c => c.Id == consumerId);
+            return context.ConsumerDetails.Include(c => c.BusinessDetails.Properties).FirstOrDefault(c => c.Id == consumerId);
         }
 
         public bool UpdateConsumer(ConsumerDetails consumerDetails)

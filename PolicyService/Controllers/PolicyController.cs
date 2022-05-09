@@ -29,7 +29,7 @@ namespace PolicyService.Controllers
                     return Ok(new CustomResponse(201,"Policy has been created successfully.",null));
                 }
             }
-            return BadRequest();
+            return BadRequest(new CustomResponse(400, "Not Eligible.", null));
         }
     }
 }

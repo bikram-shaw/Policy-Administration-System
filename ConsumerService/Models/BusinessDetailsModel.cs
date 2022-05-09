@@ -18,11 +18,12 @@ namespace ConsumerService.Models
         [Required]
         public long TotalEmployee { get; set; }
         [Required]
-        [JsonIgnore]
+       
         public long BusinessValue { get; set; }
         [Required]
         public long BusinessAge { get; set; }
 
+        public List<PropertyDetailsModel> PropertyDetails { get; set; }
        
     }
 }

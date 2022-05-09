@@ -50,7 +50,7 @@ namespace ConsumerService.Controllers
             var ConsumerBusiness = service.GetConsumerDetails(consumerId);
             if (ConsumerBusiness != null)
             {
-                return Ok(new CustomResponse(ResponseCode.Ok,"", ConsumerBusiness));
+                return Ok( ConsumerBusiness);
             }
             return NotFound(new CustomResponse(ResponseCode.Error, "Consumer with id "+consumerId+" not found!", null));
         }
