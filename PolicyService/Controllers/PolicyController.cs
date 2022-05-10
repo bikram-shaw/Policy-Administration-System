@@ -31,5 +31,26 @@ namespace PolicyService.Controllers
             }
             return BadRequest(new CustomResponse(400, "Not Eligible.", null));
         }
+
+        [HttpGet("{PId}/{CustId}")]
+        public IActionResult IssuePolicy(long PId, long CustId)
+        {
+            bool status=service.IssuePolicy(PId,CustId);
+            if (status)
+            {
+                return Ok(new CustomResponse(200, "Policy has been issued.", null));
+            }
+            return BadRequest(new CustomResponse(400, "Not Found any policy!", null));
+        }
+        [HttpGet("{Pid}")]
+        public IActionResult GetPolicy(string Pid)
+        {
+            PolicyMasterModel policyMasterModel = service.GetPolicy(Pid);
+            if (policyMasterModel!=null)
+            {
+                return Ok(policyMasterModel);
+            }
+            return BadRequest(new CustomResponse(400,"Not Found!",null));
+        }
     }
 }

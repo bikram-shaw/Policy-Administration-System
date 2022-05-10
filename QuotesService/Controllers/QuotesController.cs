@@ -17,9 +17,9 @@ namespace QuotesService.Controllers
         }
 
         [HttpGet("{businessValue}/{propertyValue}/{propertyType}")]
-        public IActionResult getQuotesForPolicy(long businessValue,long propertValue,string propertyType)
+        public IActionResult getQuotesForPolicy(long businessValue,long propertyValue,string propertyType)
         {
-            string quotes= service.GetQuotesForPolicy(businessValue, propertValue, propertyType);
+            string quotes= service.GetQuotesForPolicy(businessValue, propertyValue, propertyType);
             if (quotes.Length>0)
                 return Ok(new CustomResponse(1,"",quotes));
             return Ok(new CustomResponse(2, "No Quotes, Contact Insurance Provider", null));

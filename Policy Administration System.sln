@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{25FF3894-F281-4499-8DFE-AF4015CC6028}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "AuthService\AuthService.csproj", "{25FF3894-F281-4499-8DFE-AF4015CC6028}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerService", "ConsumerService\ConsumerService.csproj", "{780F8CB6-670D-47DF-A022-8EA2D4C4F39D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerService", "ConsumerService\ConsumerService.csproj", "{780F8CB6-670D-47DF-A022-8EA2D4C4F39D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolicyService", "PolicyService\PolicyService.csproj", "{E7DD57D9-1095-4778-8A0E-A209689B3339}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PolicyService", "PolicyService\PolicyService.csproj", "{E7DD57D9-1095-4778-8A0E-A209689B3339}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuotesService", "QuotesService\QuotesService.csproj", "{64666655-E52F-462B-A852-217A71DFCCA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuotesService", "QuotesService\QuotesService.csproj", "{64666655-E52F-462B-A852-217A71DFCCA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerServiceTests", "ConsumerServiceTests\ConsumerServiceTests.csproj", "{581C3560-89F3-4CBF-8360-F4FA8B3A369D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{64666655-E52F-462B-A852-217A71DFCCA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64666655-E52F-462B-A852-217A71DFCCA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64666655-E52F-462B-A852-217A71DFCCA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{581C3560-89F3-4CBF-8360-F4FA8B3A369D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{581C3560-89F3-4CBF-8360-F4FA8B3A369D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{581C3560-89F3-4CBF-8360-F4FA8B3A369D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{581C3560-89F3-4CBF-8360-F4FA8B3A369D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

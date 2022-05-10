@@ -54,6 +54,28 @@ namespace PolicyService.Service
            return false;
         }
 
+        public PolicyMasterModel GetPolicy(string PId)
+        {
+            PolicyMaster policyMaster = repository.GetPolicy(PId);
+            return new PolicyMasterModel()
+            {
+                Id=policyMaster.Id,
+                AssuredSum=policyMaster.AssuredSum,
+                BaseLocation=policyMaster.BaseLocation,
+                BusinessValue=policyMaster.BusinessValue,
+                ConsumerType=policyMaster.ConsumerType,
+                PropertyType=policyMaster.PropertyType,
+                PropertyValue=policyMaster.PropertyValue,
+                Tenure=policyMaster.Tenure,
+                Type=policyMaster.Type
+            };
+        }
+
+        public bool IssuePolicy(long PId, long CustId)
+        {
+            return repository.IssuePolicy(PId,CustId);
+        }
+
         private bool CheckPolicy(ConsumerDetailsModel consumerDetails)
         {
             bool check = false;
@@ -120,7 +142,7 @@ namespace PolicyService.Service
 
                 try
                 {
-                    response = client.GetAsync("api/PensionerDetail/" + businessValue+"/"+ propertyValue+"/"+ propertyType).Result;
+                    response = client.GetAsync("api/Quotes/getQuotesForPolicy/" + businessValue+"/"+ propertyValue+"/"+ propertyType).Result;
                 }
                 catch (Exception e)
                 {
