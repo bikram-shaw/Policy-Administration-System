@@ -37,7 +37,7 @@ namespace AuthService.Controllers
             var user = userService.AuthenticateUser(login);
             if (user == null)
             {
-                return NotFound(new CustomResponse(401, "Invalid Credential"));
+                return Unauthorized(new CustomResponse(401, "Invalid Credential"));
             }
             else
             {
