@@ -57,6 +57,10 @@ namespace PolicyService.Service
         public PolicyMasterModel GetPolicy(string PId)
         {
             PolicyMaster policyMaster = repository.GetPolicy(PId);
+            if (policyMaster == null)
+            {
+                return null;
+            }
             return new PolicyMasterModel()
             {
                 Id=policyMaster.Id,

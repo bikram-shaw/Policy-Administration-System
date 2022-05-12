@@ -36,6 +36,14 @@ namespace AuthService
 
             services.AddControllers();
 
+            services.AddCors(o => o.AddPolicy("authcors", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+
             services.AddDbContext<AuthServiceContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultDb"));
@@ -79,7 +87,7 @@ namespace AuthService
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("authcors");
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

@@ -114,7 +114,7 @@ namespace ConsumerService.Service
             return repo.UpdateConsumer(consumerDetails);
         }
 
-        private long CalculateBusinessValue(long businessTurnOver,long capitalInvested)
+        public long CalculateBusinessValue(long businessTurnOver,long capitalInvested)
         {
             double x_max =businessTurnOver;
             double x_min =capitalInvested;
