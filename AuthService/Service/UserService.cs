@@ -1,6 +1,5 @@
 ﻿using AuthService.Data.Entities;
 using AuthService.Models;
-using AuthService.Models;
 using AuthService.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -13,25 +12,26 @@ namespace AuthService.Service
     public class UserService : IUserService
     {
         private readonly IConfiguration _config;
-        private readonly IUserRepo repo;
-
+        private readonly IUserRepo UserRepo;
+        static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(UserService));
         public UserService(IConfiguration config, IUserRepo repo)
         {
             _config = config;
-            this.repo = repo;
+            this.UserRepo = repo;
         }
 
         public LoginCredentials AuthenticateUser(LoginCredentials cred)
         {
-            User user = repo.GetUserCred(new User() { Username=cred.Username,Password=cred.Password});
+            User user = UserRepo.GetUserCred(new User() { Username=cred.Username,Password=cred.Password});
             if (user != null)
                 return cred;
             else
                 return null;
         }
+
         public string GenerateJSONWebToken(LoginCredentials userInfo)
         {
-            //_log4net.Info("Token Is Generated!");
+            _log4net.Info("Token Is Generated!");
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

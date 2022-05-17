@@ -13,7 +13,7 @@ namespace AuthService.Controllers
     {
         
         private readonly IUserService userService;
-
+        static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(AuthController));
         public AuthController(IUserService userService)
         {
            
@@ -30,8 +30,10 @@ namespace AuthService.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] LoginCredentials login)
         {
+            
+            
           
-            //_log4net.Info("Login initiated!");
+            _log4net.Info("Login initiated!");
             IActionResult response = Unauthorized();
 
             var user = userService.AuthenticateUser(login);

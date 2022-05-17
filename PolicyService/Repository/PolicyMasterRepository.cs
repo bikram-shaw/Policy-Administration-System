@@ -7,16 +7,16 @@ namespace PolicyService.Repository
 {
     public class PolicyMasterRepository : IPolicyMasterRepository
     {
-        private readonly PolicyServiceContext context;
+        private readonly PolicyServiceContext policyServiceContext;
 
         public PolicyMasterRepository(PolicyServiceContext context)
         {
-            this.context = context;
+            this.policyServiceContext = context;
         }
 
         public PolicyMaster GetPolicyMaster(long businessValue, long propertyValue)
         {
-            return context.PolicyMasters.Where(pm=>pm.BusinessValue==businessValue && pm.PropertyValue==propertyValue).FirstOrDefault();
+            return policyServiceContext.PolicyMasters.Where(pm=>pm.BusinessValue==businessValue && pm.PropertyValue==propertyValue).FirstOrDefault();
         }
     }
 }

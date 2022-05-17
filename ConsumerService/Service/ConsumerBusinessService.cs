@@ -9,13 +9,13 @@ namespace ConsumerService.Service
 {
     public class ConsumerBusinessService : IConsumerBusinessService
     {
-        private readonly IConsumerBusinessRepository repo;
+        private readonly IConsumerBusinessRepository consumerBusinessRepository;
         private readonly IMapper mapper;
 
         public ConsumerBusinessService(IConsumerBusinessRepository repo,IMapper mapper)
         {
 
-            this.repo = repo;
+            this.consumerBusinessRepository = repo;
             this.mapper = mapper;
         }
 
@@ -40,12 +40,14 @@ namespace ConsumerService.Service
                     BusinessAge = consumerDetailsModel.BusinessDetails.BusinessAge
                 }
             };
-            return repo.CreateConsumer(consumerDetails);
+            return consumerBusinessRepository.CreateConsumer(consumerDetails);
         }
 
         public ConsumerDetailsModel GetConsumerDetails(long consumerId)
         {
-          ConsumerDetails consumerDetails=repo.GetConsumerDetails(consumerId);
+          ConsumerDetails consumerDetails=consumerBusinessRepository.GetConsumerDetails(consumerId);
+            if (consumerDetails == null)
+                return null;
             List<PropertyDetailsModel> pDetails = new List<PropertyDetailsModel>();
           foreach(var prop  in consumerDetails.BusinessDetails.Properties)
             {
@@ -90,7 +92,7 @@ namespace ConsumerService.Service
 
         public bool UpdateConsumer(long consumerId, ConsumerDetailsModel consumerDetailsModel)
         {
-            ConsumerDetails consumerDetails = repo.GetConsumerDetails(consumerId);
+            ConsumerDetails consumerDetails = consumerBusinessRepository.GetConsumerDetails(consumerId);
             if (consumerDetails == null)
                 return false;
             else
@@ -111,7 +113,7 @@ namespace ConsumerService.Service
                 consumerDetails.BusinessDetails.BusinessValue = consumerDetailsModel.BusinessDetails.BusinessValue;
                 consumerDetails.BusinessDetails.BusinessAge = consumerDetailsModel.BusinessDetails.BusinessAge;
             };
-            return repo.UpdateConsumer(consumerDetails);
+            return consumerBusinessRepository.UpdateConsumer(consumerDetails);
         }
 
         public long CalculateBusinessValue(long businessTurnOver,long capitalInvested)
@@ -124,6 +126,10 @@ namespace ConsumerService.Service
             double range_diff = Range_max - Range_min;
             double sat = ((x_ratio - x_min) / (x_max - x_min));
             double businessvalue = (range_diff * sat);
+            if (businessvalue > 10 )
+            {
+                return 10;
+            }
             return (long)Math.Round(businessvalue);
         }
     }

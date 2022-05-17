@@ -3,13 +3,13 @@
     public class CustomResponse
     {
 
-        public int status { get; set; }
-        public string message { get; set; }
+        public int Status { get; set; }
+        public string Message { get; set; }
 
-        public CustomResponse(int status, string message)
+        public CustomResponse(int Status, string Message)
         {
-            this.status = status;
-            this.message = message;
+            this.Status = Status;
+            this.Message = Message;
         }
     }
 }

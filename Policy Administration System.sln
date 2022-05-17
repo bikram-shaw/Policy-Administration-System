@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuotesService", "QuotesServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumerServiceTests", "ConsumerServiceTests\ConsumerServiceTests.csproj", "{581C3560-89F3-4CBF-8360-F4FA8B3A369D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServiceTest", "AuthServiceTest\AuthServiceTest.csproj", "{1C20E54A-D36E-4D6C-A33D-E37938C08A3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServiceTest", "AuthServiceTest\AuthServiceTest.csproj", "{1C20E54A-D36E-4D6C-A33D-E37938C08A3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolicyServiceTest", "PolicyServiceTest\PolicyServiceTest.csproj", "{40834EA5-3140-4B86-AE84-FC76443C3000}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PolicyServiceTest", "PolicyServiceTest\PolicyServiceTest.csproj", "{40834EA5-3140-4B86-AE84-FC76443C3000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuotesServiceTest", "QuotesServiceTest\QuotesServiceTest.csproj", "{65B5DCD2-F295-4D83-A87F-BE83D1C39729}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuotesServiceTest", "QuotesServiceTest\QuotesServiceTest.csproj", "{65B5DCD2-F295-4D83-A87F-BE83D1C39729}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

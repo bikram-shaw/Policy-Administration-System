@@ -1,18 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuotesService.Models;
 using QuotesService.Service;
 
 namespace QuotesService.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class QuotesController : ControllerBase
     {
         private readonly IQuotesService service;
-
+        static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(QuotesController));
         public QuotesController(IQuotesService service)
         {
+            
             this.service = service;
         }
 

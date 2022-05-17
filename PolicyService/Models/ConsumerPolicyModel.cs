@@ -17,9 +17,9 @@ namespace PolicyService.Models
 		public string AssuredSum { get; set; }
 		[Required]
 		public string Tenure { get; set; }
-		[Required]
+		
 		public long BusinessValue { get; set; }
-		[Required]
+	
 		public long PropertyValue { get; set; }
 		[Required]
 		public string BaseLocation { get; set; }

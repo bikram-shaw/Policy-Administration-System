@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PolicyService.Data;
 using PolicyService.Repository;
@@ -14,6 +16,7 @@ using PolicyService.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PolicyService
@@ -33,11 +36,31 @@ namespace PolicyService
 
             services.AddControllers();
             services.AddHttpClient();
+            services.AddCors(o => o.AddPolicy("policycors", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+           
             services.AddDbContext<PolicyServiceContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultDb"));
             });
-
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = true,
+                       ValidateAudience = true,
+                       ValidateLifetime = true,
+                       ValidateIssuerSigningKey = true,
+                       ValidIssuer = Configuration["Jwt:Issuer"],
+                       ValidAudience = Configuration["Jwt:Issuer"],
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                   };
+               });
             services.AddScoped<IConsumerPolicyService, ConsumerPolicyService>();
             services.AddScoped<IConsumerPolicyRepository, ConsumerPolicyRepository>();
             services.AddScoped<IPolicyMasterRepository, PolicyMasterRepository>();
@@ -61,7 +84,8 @@ namespace PolicyService
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("policycors");
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

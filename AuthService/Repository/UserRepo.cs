@@ -6,16 +6,20 @@ namespace AuthService.Repository
 {
     public class UserRepo : IUserRepo
     {
-        private readonly AuthServiceContext context;
+        private readonly AuthServiceContext authServiceContext;
+        
 
-        public UserRepo(AuthServiceContext context)
+        public UserRepo(AuthServiceContext authServiceContext)
         {
-            this.context = context;
+            this.authServiceContext = authServiceContext;
         }
 
         public User GetUserCred(User user)
-        {
-            return context.Users.Where(u=>u.Username==user.Username && u.Password==user.Password).FirstOrDefault();
+        { 
+            return authServiceContext.Users.Where(u => u.Username == user.Username && u.Password == user.Password).FirstOrDefault();
+            
         }
+
+        
     }
 }

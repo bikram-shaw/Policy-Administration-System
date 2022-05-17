@@ -7,22 +7,22 @@ namespace ConsumerService.Repository
 {
     public class ConsumerBusinessRepository : IConsumerBusinessRepository
     {
-        private readonly ConsumerBusinessContext context;
+        private readonly ConsumerBusinessContext consumerBusinessContext;
 
         public ConsumerBusinessRepository(ConsumerBusinessContext context)
         {
-            this.context = context;
+            this.consumerBusinessContext = context;
         }
 
         public bool CreateConsumer(ConsumerDetails consumerDetails)
         {
-            context.ConsumerDetails.Add(consumerDetails);
+            consumerBusinessContext.ConsumerDetails.Add(consumerDetails);
             return SaveChanges();
         }
 
         public ConsumerDetails GetConsumerDetails(long consumerId)
         {
-            return context.ConsumerDetails.Include(c => c.BusinessDetails.Properties).FirstOrDefault(c => c.Id == consumerId);
+            return consumerBusinessContext.ConsumerDetails.Include(c => c.BusinessDetails.Properties).FirstOrDefault(c => c.Id == consumerId);
         }
 
         public bool UpdateConsumer(ConsumerDetails consumerDetails)
@@ -30,9 +30,11 @@ namespace ConsumerService.Repository
             return SaveChanges();
         }
 
+        
+
         private bool SaveChanges()
         {
-            if (context.SaveChanges() > 0)
+            if (consumerBusinessContext.SaveChanges() > 0)
                 return true;
             return false;
         }

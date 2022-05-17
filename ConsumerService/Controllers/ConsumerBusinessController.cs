@@ -4,19 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 using ConsumerService.Models;
 using ConsumerService.Enums;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 namespace ConsumerService.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
    
     public class ConsumerBusinessController : ControllerBase
     {
-        private readonly IConsumerBusinessService service;
-
+        private readonly IConsumerBusinessService consumerBusinessService;
+        static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(ConsumerBusinessController));
         public ConsumerBusinessController(IConsumerBusinessService service)
         {
-            this.service = service;
+            this.consumerBusinessService = service;
         }
 
         /// <summary>
@@ -25,11 +27,14 @@ namespace ConsumerService.Controllers
         /// <param name="consumerBusinessModal"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult CreateConsumerBusiness(ConsumerDetailsModel consumerBusinessModal)
+        public IActionResult CreateConsumerBusiness(ConsumerDetailsModel consumerBusinessModal) 
         {
+
             if (ModelState.IsValid)
             {
-                if (service.CreateConsumer(consumerBusinessModal))
+                _log4net.Info("Create consumer started");
+
+                if (consumerBusinessService.CreateConsumer(consumerBusinessModal))
                 {
                     return Created("",new CustomResponse(ResponseCode.Ok, "Consumer business has been created", null));
                 }
@@ -47,7 +52,8 @@ namespace ConsumerService.Controllers
         [HttpGet("{consumerId}")]
         public IActionResult ViewConsumerBusiness(long consumerId)
         {
-            var ConsumerBusiness = service.GetConsumerDetails(consumerId);
+            _log4net.Info("View consumer started");
+            var ConsumerBusiness = consumerBusinessService.GetConsumerDetails(consumerId);
             if (ConsumerBusiness != null)
             {
                 return Ok( ConsumerBusiness);
@@ -64,8 +70,11 @@ namespace ConsumerService.Controllers
         [HttpPut("{consumerId}")]
         public IActionResult UpdateConsumerBusiness(long consumerId,ConsumerDetailsModel consumerDetailsModel)
         {
-            if (ModelState.IsValid) { 
-              if(service.UpdateConsumer(consumerId, consumerDetailsModel))
+            if (ModelState.IsValid) {
+
+                _log4net.Info("update consumer started");
+
+                if (consumerBusinessService.UpdateConsumer(consumerId, consumerDetailsModel))
                 {
                     return Ok(new CustomResponse(ResponseCode.Ok, "Consumer details has been updated.", null));
                 }

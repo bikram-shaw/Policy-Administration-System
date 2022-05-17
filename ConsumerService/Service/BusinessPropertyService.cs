@@ -9,12 +9,12 @@ namespace ConsumerService.Service
 {
     public class BusinessPropertyService : IBusinessPropertyService
     {
-        private readonly IBusinessPropertyRepository repo;
+        private readonly IBusinessPropertyRepository businessPropertyRepository;
         private readonly IMapper mapper;
 
         public BusinessPropertyService(IBusinessPropertyRepository repo,IMapper mapper)
         {
-            this.repo = repo;
+            this.businessPropertyRepository = repo;
             this.mapper = mapper;
         }
 
@@ -34,18 +34,18 @@ namespace ConsumerService.Service
                 BusinessId=propertyDetailsModel.BusinessId,
             };
 
-            return repo.CreateBusinessProperty(propertyDetails);
+            return businessPropertyRepository.CreateBusinessProperty(propertyDetails);
         }
 
         public List<PropertyDetailsModel> GetBusinessProperty(long propertyId)
         {
-            List<PropertyDetails> PropertyDetails=repo.GetBusinessProperties(propertyId);
+            List<PropertyDetails> PropertyDetails=businessPropertyRepository.GetBusinessProperties(propertyId);
             return mapper.Map<List<PropertyDetailsModel>>(PropertyDetails);
         }
 
         public bool UpdateBusinessProperty(long propertyId,PropertyDetailsModel propertyDetailsModel)
         {
-            PropertyDetails propertyDetails = repo.GetBusinessProperty(propertyId);
+            PropertyDetails propertyDetails = businessPropertyRepository.GetBusinessProperty(propertyId);
             if(propertyDetails == null)
                 return false;
             else
@@ -61,7 +61,7 @@ namespace ConsumerService.Service
                 propertyDetails.SalvageValue = propertyDetailsModel.SalvageValue;
                 
             }
-            return repo.UpdateBusinessProperty(propertyDetails);
+            return businessPropertyRepository.UpdateBusinessProperty(propertyDetails);
 
         }
 
@@ -80,7 +80,10 @@ namespace ConsumerService.Service
             double sat = ((x_ratio - x_min) / (x_max - x_min));
 
             double propertyvalue = range_diff * sat;
-
+            if (propertyvalue > 10)
+            {
+                return 10;
+            }
             return (long)Math.Abs(Math.Round(propertyvalue));
         }
     }

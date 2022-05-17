@@ -6,28 +6,28 @@ namespace PolicyService.Repository
 {
     public class ConsumerPolicyRepository : IConsumerPolicyRepository
     {
-        private readonly PolicyServiceContext context;
+        private readonly PolicyServiceContext policyServiceContext;
 
         public ConsumerPolicyRepository(PolicyServiceContext context)
         {
-            this.context = context;
+            this.policyServiceContext = context;
         }
 
         public bool CreateConsumerPolicy(ConsumerPolicy consumerPolicy)
         {
-           context.ConsumerPolicies.Add(consumerPolicy);
+           policyServiceContext.ConsumerPolicies.Add(consumerPolicy);
             return SaveChanges();
         }
 
         public PolicyMaster GetPolicy(string PId)
         {
-            PolicyMaster policyMaster = context.PolicyMasters.Where(cp => cp.Id == PId).FirstOrDefault();
+            PolicyMaster policyMaster = policyServiceContext.PolicyMasters.Where(cp => cp.Id == PId).FirstOrDefault();
             return policyMaster;
         }
 
         public bool IssuePolicy(long PId,long CustId)
         {
-            ConsumerPolicy consumerPolicy=context.ConsumerPolicies.Where(cp => cp.Id == PId & cp.ConsumerId == CustId).FirstOrDefault();
+            ConsumerPolicy consumerPolicy=policyServiceContext.ConsumerPolicies.Where(cp => cp.Id == PId & cp.ConsumerId == CustId).FirstOrDefault();
             if (consumerPolicy != null)
             {
                 consumerPolicy.Status = "Approve";
@@ -38,7 +38,7 @@ namespace PolicyService.Repository
 
         private bool SaveChanges()
         {
-            if (context.SaveChanges() > 0)
+            if (policyServiceContext.SaveChanges() > 0)
                 return true;
             return false;
         }
