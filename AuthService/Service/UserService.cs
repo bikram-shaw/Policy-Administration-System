@@ -12,17 +12,17 @@ namespace AuthService.Service
     public class UserService : IUserService
     {
         private readonly IConfiguration _config;
-        private readonly IUserRepo UserRepo;
+        private readonly IUserRepo userRepo;
         static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(UserService));
-        public UserService(IConfiguration config, IUserRepo repo)
+        public UserService(IConfiguration config, IUserRepo userRepo)
         {
             _config = config;
-            this.UserRepo = repo;
+            this.userRepo = userRepo;
         }
 
         public LoginCredentials AuthenticateUser(LoginCredentials cred)
         {
-            User user = UserRepo.GetUserCred(new User() { Username=cred.Username,Password=cred.Password});
+            User user = userRepo.GetUserCred(new User() { Username=cred.Username,Password=cred.Password});
             if (user != null)
                 return cred;
             else

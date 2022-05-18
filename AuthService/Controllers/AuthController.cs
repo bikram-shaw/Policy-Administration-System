@@ -22,7 +22,7 @@ namespace AuthService.Controllers
 
 
         /// <summary>
-        /// Post method for Login
+        /// Post method for Login.
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
