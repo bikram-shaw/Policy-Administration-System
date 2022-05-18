@@ -30,9 +30,7 @@ namespace AuthService.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] LoginCredentials login)
         {
-            
-            
-          
+
             _log4net.Info("Login initiated!");
             IActionResult response = Unauthorized();
 

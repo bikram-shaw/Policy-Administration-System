@@ -45,7 +45,7 @@ namespace PolicyServiceTest
         }
         [Test]
         [TestCase(11,21)]
-        public void IssuePolicy_Results_True(long Pid,long Custid)
+        public void IssuePolicy_Results_True(string Pid,long Custid)
         {
             mock.Setup(p => p.IssuePolicy(Pid,Custid)).Returns(true);
             bool res = mock.Object.IssuePolicy(Pid,Custid);

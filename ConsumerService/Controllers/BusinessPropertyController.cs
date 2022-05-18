@@ -32,6 +32,7 @@ namespace ConsumerService.Controllers
             if (ModelState.IsValid)
             {
                 _log4net.Info("Create business started");
+
                 if (businessPropertyService.CreateBusinessProperty(propertyDetailsModel))
                 {
                     return Ok(new CustomResponse(Enums.ResponseCode.Ok, "Business property has been created.",null));
@@ -52,6 +53,7 @@ namespace ConsumerService.Controllers
             if (ModelState.IsValid)
             {
                 _log4net.Info(" update business started");
+
                 if (businessPropertyService.UpdateBusinessProperty(propertyId,propertyDetailsModel))
                 {
                     return Ok(new CustomResponse(Enums.ResponseCode.Ok, "Business property has been updated.", null));
