@@ -13,10 +13,10 @@ namespace QuotesService.Controllers
     {
         private readonly IQuotesService quotesService;
         static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(QuotesController));
-        public QuotesController(IQuotesService service)
+        public QuotesController(IQuotesService quotesService)
         {
             
-            this.quotesService = service;
+            this.quotesService = quotesService;
         }
 
         /// <summary>
