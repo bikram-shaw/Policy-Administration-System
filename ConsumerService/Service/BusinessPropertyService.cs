@@ -80,9 +80,13 @@ namespace ConsumerService.Service
             double sat = ((x_ratio - x_min) / (x_max - x_min));
 
             double propertyvalue = range_diff * sat;
-            if (propertyvalue > 10)
+            if (propertyvalue > 10 )
             {
                 return 10;
+            }
+            if (propertyvalue < 10)
+            {
+                return 5;
             }
             return (long)Math.Abs(Math.Round(propertyvalue));
         }

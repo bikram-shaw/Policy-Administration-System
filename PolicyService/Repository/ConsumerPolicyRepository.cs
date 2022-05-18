@@ -19,15 +19,15 @@ namespace PolicyService.Repository
             return SaveChanges();
         }
 
-        public PolicyMaster GetPolicy(string PId)
+        public ConsumerPolicy GetPolicy(string PId)
         {
-            PolicyMaster policyMaster = policyServiceContext.PolicyMasters.Where(cp => cp.Id == PId).FirstOrDefault();
-            return policyMaster;
+            ConsumerPolicy consumerPolicy = policyServiceContext.ConsumerPolicies.Where(cp => cp.ConsumerId == long.Parse(PId)).FirstOrDefault();
+            return consumerPolicy;
         }
 
-        public bool IssuePolicy(long PId,long CustId)
+        public bool IssuePolicy(string PId,long CustId)
         {
-            ConsumerPolicy consumerPolicy=policyServiceContext.ConsumerPolicies.Where(cp => cp.Id == PId & cp.ConsumerId == CustId).FirstOrDefault();
+            ConsumerPolicy consumerPolicy=policyServiceContext.ConsumerPolicies.Where(cp => cp.Pid == PId & cp.ConsumerId == CustId).FirstOrDefault();
             if (consumerPolicy != null)
             {
                 consumerPolicy.Status = "Approve";

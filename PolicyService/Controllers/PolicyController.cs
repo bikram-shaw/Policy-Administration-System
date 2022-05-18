@@ -24,45 +24,45 @@ namespace PolicyService.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePolicy(ConsumerPolicyModel consumerPolicyModel)
+        public IActionResult CreatePolicy(CreatePolicyModel createPolicyModel)
         {
             if (ModelState.IsValid)
             {
                 _log4net.Info("Create Policy started");
 
                 var accessToken = Request.Headers[HeaderNames.Authorization];
-                if (service.CreateConsumerPolicy(consumerPolicyModel, accessToken))
+                if (service.CreateConsumerPolicy(createPolicyModel, accessToken))
                 {
-                    return Ok(new CustomResponse(201,"Policy has been created successfully.",null));
+                    return Ok(new CustomResponse(201, "Policy has been created successfully.", null));
                 }
             }
             return BadRequest(new CustomResponse(400, "Not Eligible.", null));
         }
 
         [HttpGet("{PId}/{CustId}")]
-        public IActionResult IssuePolicy(long PId, long CustId)
+        public IActionResult IssuePolicy(string PId, long CustId)
         {
             _log4net.Info("Issue policy started");
 
-            bool status=service.IssuePolicy(PId,CustId);
+            bool status = service.IssuePolicy(PId, CustId);
             if (status)
             {
                 return Ok(new CustomResponse(200, "Policy successfully issued.", null));
             }
-            return BadRequest(new CustomResponse(400, "Not Found any policy!", null));
+            return BadRequest(new CustomResponse(400, "Not found any policy!", null));
         }
-        [HttpGet("{Pid}")]
-        public IActionResult GetPolicy(string Pid)
+        [HttpGet("{Cid}")]
+        public IActionResult GetPolicy(string Cid)
         {
             _log4net.Info("Get policy started");
 
-            PolicyMasterModel policyMasterModel = service.GetPolicy(Pid);
+            ConsumerPolicyModel policyMasterModel = service.GetPolicy(Cid);
 
             if (policyMasterModel!=null)
             {
                 return Ok(policyMasterModel);
             }
-            return BadRequest(new CustomResponse(400,"Not Found!",null));
+            return BadRequest(new CustomResponse(400,"Not found Any policy!",null));
         }
     }
 }

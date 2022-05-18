@@ -130,6 +130,10 @@ namespace ConsumerService.Service
             {
                 return 10;
             }
+            if (businessvalue < 0)
+            {
+                return 5;
+            }
             return (long)Math.Round(businessvalue);
         }
     }

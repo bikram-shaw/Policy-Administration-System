@@ -15,6 +15,7 @@ namespace PolicyService.Service
         private IConfiguration configuration;
         private readonly IPolicyMasterRepository policyMasterRepository;
         private string token;
+        private PolicyMaster policyMaster = null;
 
         public ConsumerPolicyService(IConsumerPolicyRepository consumerPolicyRepository, IConfiguration _configuration, IPolicyMasterRepository policyMasterRepository)
         {
@@ -23,32 +24,32 @@ namespace PolicyService.Service
             this.policyMasterRepository = policyMasterRepository;
         }
 
-        public bool CreateConsumerPolicy(ConsumerPolicyModel consumerPolicyModel,string token)
+        public bool CreateConsumerPolicy(CreatePolicyModel createPolicyModel,string token)
         {
             this.token = token;
            
-            ConsumerDetailsModel consumerDetails = GetConsumerDetails(consumerPolicyModel.ConsumerId);
+            ConsumerDetailsModel consumerDetails = GetConsumerDetails(createPolicyModel.Cid);
             if (consumerDetails == null)
             {
                 return false;
             }
             else
             {
-                bool eligible=CheckPolicy(consumerDetails);
-                if (eligible)
+                string quotes=CheckPolicy(consumerDetails);
+                if (!string.IsNullOrEmpty(quotes))
                 {
                     ConsumerPolicy consumerPolicy = new ConsumerPolicy()
                     {
-                        Pid = consumerPolicyModel.Pid,
-                        AcceptedQuote = consumerPolicyModel.AcceptedQuote,
-                        AssuredSum = consumerPolicyModel.AssuredSum,
-                        BaseLocation = consumerPolicyModel.BaseLocation,
+                        Pid = createPolicyModel.Pid,
+                        AcceptedQuote = quotes,
+                        AssuredSum = policyMaster.AssuredSum.ToString(),
+                        BaseLocation = policyMaster.BaseLocation,
                        BusinessValue = consumerDetails.BusinessDetails.BusinessValue,
-                        ConsumerId = consumerPolicyModel.ConsumerId,
-                        ConsumerType = consumerPolicyModel.ConsumerType,
-                        PropertyType = consumerPolicyModel.PropertyType,
+                        ConsumerId = createPolicyModel.Cid,
+                        ConsumerType = policyMaster.ConsumerType,
+                        PropertyType = policyMaster.PropertyType,
                         PropertyValue = consumerDetails.BusinessDetails.PropertyDetails[0].PropertyValue,
-                        Tenure = consumerPolicyModel.Tenure,
+                        Tenure = policyMaster.Tenure,
                         Status = "Initiated"
                     };
                     return consumerPolicyRepository.CreateConsumerPolicy(consumerPolicy);
@@ -57,49 +58,49 @@ namespace PolicyService.Service
            return false;
         }
 
-        public PolicyMasterModel GetPolicy(string PId)
+        public ConsumerPolicyModel GetPolicy(string cId)
         {
-            PolicyMaster policyMaster = consumerPolicyRepository.GetPolicy(PId);
-            if (policyMaster == null)
+            ConsumerPolicy consumerPolicy = consumerPolicyRepository.GetPolicy(cId);
+            if (consumerPolicy == null)
             {
                 return null;
             }
-            return new PolicyMasterModel()
+            return new ConsumerPolicyModel()
             {
-                Id=policyMaster.Id,
-                AssuredSum=policyMaster.AssuredSum,
-                BaseLocation=policyMaster.BaseLocation,
-                BusinessValue=policyMaster.BusinessValue,
-                ConsumerType=policyMaster.ConsumerType,
-                PropertyType=policyMaster.PropertyType,
-                PropertyValue=policyMaster.PropertyValue,
-                Tenure=policyMaster.Tenure,
-                Type=policyMaster.Type
+                Id=consumerPolicy.Id,
+                AcceptedQuote=consumerPolicy.AcceptedQuote,
+                AssuredSum=consumerPolicy.AssuredSum,
+                BaseLocation=consumerPolicy.BaseLocation,
+                ConsumerType=consumerPolicy.ConsumerType,
+                PropertyType=consumerPolicy.PropertyType,
+                Type=consumerPolicy.Type,
+                Status=consumerPolicy.Status,
+                Tenure=consumerPolicy.Tenure,
+                Pid=consumerPolicy.Pid
             };
         }
 
-        public bool IssuePolicy(long PId, long CustId)
+        public bool IssuePolicy(string PId, long CustId)
         {
             return consumerPolicyRepository.IssuePolicy(PId,CustId);
         }
 
-        private bool CheckPolicy(ConsumerDetailsModel consumerDetails)
+        private string CheckPolicy(ConsumerDetailsModel consumerDetails)
         {
-            bool check = false;
-
-            foreach(PropertyDetailsModel pd in consumerDetails.BusinessDetails.PropertyDetails)
-            {
-                PolicyMaster policyMaster=policyMasterRepository.GetPolicyMaster(consumerDetails.BusinessDetails.BusinessValue,pd.PropertyValue);
+            string check = string.Empty ;
+            PropertyDetailsModel pd = consumerDetails.BusinessDetails.PropertyDetails[0];
+                 policyMaster =policyMasterRepository.GetPolicyMaster(consumerDetails.BusinessDetails.BusinessValue, pd.PropertyValue);
                 if (policyMaster != null)
                 {
                     string quotes = GetQuotes(consumerDetails.BusinessDetails.BusinessValue, pd.PropertyValue,pd.PropertyType);
-                    if(quotes == null)
+                    
+                    if (!string.IsNullOrEmpty(quotes))
                     {
-                        check = true;
+                        return quotes;
                     }
                 }
-            }
-            return check;
+           
+            return string.Empty;
         }
 
          private ConsumerDetailsModel GetConsumerDetails(long consumerId)
@@ -171,6 +172,10 @@ namespace PolicyService.Service
 
                     var ObjResponse = response.Content.ReadAsStringAsync().Result;
                     CustomResponse res = JsonConvert.DeserializeObject<CustomResponse>(ObjResponse);
+                    if (res.data == null)
+                    {
+                        return null;
+                    }
                     string quotes = JsonConvert.DeserializeObject<string>(res.data.ToString());
                     return quotes;
                 }

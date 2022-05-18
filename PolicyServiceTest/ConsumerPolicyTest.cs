@@ -15,15 +15,15 @@ namespace PolicyServiceTest
     {
 
         private Mock<IConsumerPolicyService> mock;
-        PolicyMasterModel policyMasterModel;
+        ConsumerPolicyModel consumerPolicyModel;
 
         [SetUp]
         public void SetUp()
         {
             mock = new Mock<IConsumerPolicyService>();
-            policyMasterModel = new PolicyMasterModel()
+            consumerPolicyModel = new ConsumerPolicyModel()
             {
-                AssuredSum=1,
+                AssuredSum="20000",
                 BaseLocation="Chennai",
                 BusinessValue=1,
                 ConsumerType= "Owner",
@@ -38,10 +38,10 @@ namespace PolicyServiceTest
         [TestCase("P01")]
         public void GetPolicy_Returns_PolicyMasterModel(string Pid)
         {
-            mock.Setup(p => p.GetPolicy(Pid)).Returns(policyMasterModel);
-            PolicyMasterModel model = mock.Object.GetPolicy(Pid);
+            mock.Setup(p => p.GetPolicy(Pid)).Returns(consumerPolicyModel);
+            ConsumerPolicyModel model = mock.Object.GetPolicy(Pid);
             
-            Assert.AreEqual(policyMasterModel, model);
+            Assert.AreEqual(consumerPolicyModel, model);
         }
         [Test]
         [TestCase(11,21)]

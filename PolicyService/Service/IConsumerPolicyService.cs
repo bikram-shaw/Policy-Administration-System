@@ -5,8 +5,8 @@ namespace PolicyService.Service
 {
     public interface IConsumerPolicyService
     {
-        bool CreateConsumerPolicy(ConsumerPolicyModel consumerPolicyModel,string token);
-        public PolicyMasterModel GetPolicy(string PId);
-        public bool IssuePolicy(long PId, long CustId);
+        bool CreateConsumerPolicy(CreatePolicyModel createPolicyModel, string token);
+        public ConsumerPolicyModel GetPolicy(string PId);
+        public bool IssuePolicy(string PId, long CustId);
     }
 }
